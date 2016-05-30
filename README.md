@@ -2,12 +2,16 @@ Get league history for users in your current session
 
 # instructions
 ### prepare the script
+at a minimum, everyone's csgo config directory ($configdir) will be different. edit the .ps1 and give it your unique path.
+
 * save the .ps1 anywhere on your computer
 * right click the .ps1 and edit it with any text editor
 * change the path in the double quotes for $csgodir to match your computer's directory to csgo (usually "C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo")
 * change the path in the double quotes for configdir to match your computer's directory to csgo config files (usually "C:\Program Files (x86)\Steam\userdata\%acc_specific_numbers%\730\local\cfg")
 
 ### prepare powershell
+powershell does not allow you to execute scripts you've downloaded from the internet by default.
+
 * press Win + S, type "powershell" without quotes. Right click Windows Powershell and Run As Administrator
 * type "Set-ExecutionPolicy RemoteSigned" without quotes. when asked, type Y and press enter
 
