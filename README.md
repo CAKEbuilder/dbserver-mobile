@@ -20,4 +20,3 @@ Lookup league history for users in current session
 	
 ## get the results
 * when the script finishes, type "exec export" in console
-* 
