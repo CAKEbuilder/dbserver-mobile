@@ -14,3 +14,4 @@
 *   the content in console is not reliably sent directly to the export via condump. aliases can be truncated, as well as the double quotes that surround them.
 *   will randomly get an error and have to restart ISE, maybe only an ISE issue.
 * * "Exception from HRESULT: 0x800A01B6" caused by line "$full = ($html.ParsedHtml.getElementsByTagName(‘td’) | Where ..."
+* "clear;status;condump" does not wait for "status" to complete before "condump". need to find a reliable one-shot method to execute these commands so we can bind a key to all
