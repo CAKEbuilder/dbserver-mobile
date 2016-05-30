@@ -10,6 +10,7 @@
 * add support for if the user accidentally runs condump multiple times from ingame before running the ps1
 * make the output nicer
 * 
+
 # bugs
 *   the content in console is not reliably sent directly to the export via condump. aliases can be truncated, as well as the double quotes that surround them.
 *   will randomly get an error and have to restart ISE, maybe only an ISE issue.
