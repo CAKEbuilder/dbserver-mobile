@@ -1,7 +1,6 @@
-﻿<# CHANGE THESE VALUES #>
 $csgodir = "C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo"
 $configdir = "C:\Program Files (x86)\Steam\userdata\993812\730\local\cfg"
-
+<# ^^^ CHANGE THE VALUES ABOVE ^^^ #>
 
 
 
