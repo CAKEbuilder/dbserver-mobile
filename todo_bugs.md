@@ -1,7 +1,11 @@
 # todo
 * account for other division names. eg I've seen CAL-im = "CSIM". unexpected names are saved to $configdir\log.txt
-* create functions for repetitive tasks. eg, "clean" function for resetting $currentbest and $best
 * add a "best user" feature that shows who has the highest experience
+* handle special characters (UTF8). currently, these might be replaced, and break the indentation of the table
+* do things in one shot, remove the need for temp files
+* error check for if the two path variables are set incorrectly and the paths aren't found
+* create a bind that outputs the first line, then rebinds to the next line's alias, finish with "done"
+* create an automatic install file
 
 # bugs
 *   the content in console is not reliably sent directly to the export via condump. aliases can be truncated, as well as the double quotes that surround them. plenty of examples. tweeted @csgo_dev, no response
