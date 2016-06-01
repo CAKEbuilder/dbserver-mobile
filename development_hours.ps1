@@ -123,13 +123,22 @@ $allaliases = $condump | foreach {
 "alias(steamid)|hours|division|league|team|name" >> $exporttxt
 
 
-Write-Host "evaluating users (" $allaliases.Length ")..."
+Write-Host "number of users: (" $allaliases.Length ")"
 Write-Host ""
 
 
 <# calculate each user's communityid #>
+Write-Host "collecting hours played from Steam..."
+Write-Host ""
+
 $x=0
 foreach ($rawid in $allsteamids_raw) {
+
+
+            # progress bar, to let users know we are dilligently scraping Steam's site
+            # something like this...
+            #Write-Progress -Activity "collecting hours played" -status "Searching player X of Y" -PercentComplete ($x / ($allsteamids_raw.Length))
+
 
             # need to handle ignoring bots
             
@@ -172,10 +181,16 @@ foreach ($rawid in $allsteamids_raw) {
                 $hours | set-variable -name "hours$x"
             }
             
-
+            Write-Host "     user" ($x+1) "- done"
             $x = $x+1
 }
 
+Write-Host ""
+Write-Host "done"
+Write-Host ""
+
+Write-Host "looking up league history..."
+Write-Host ""
 
 # reset $x
 $x=0
@@ -237,7 +252,7 @@ foreach ($id in $allsteamids) {
                 # if the $id is null, we are evaluating a bot...
                 if (!$id) {
 
-                    $best = $allaliases[$x] + " (BOT)|" + $allaliases[$x] + " has seen more than you know..."
+                    $best = $allaliases[$x] + " (BOT)|" +  (get-variable -name "hours$x" -ValueOnly) + "|" + $allaliases[$x] + " has seen more than you know..."
                     $currentbest = "bot"
 
                 } else {                          
