@@ -1,8 +1,12 @@
+$mysteamid = "0:1:496906"
 $csgodir = "C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo"
-$configdir = "C:\Program Files (x86)\Steam\userdata\993812\730\local\cfg"
 $key = "k"
 # CHANGE THESE VALUES #>
 
+
+$mysteamid = ($mysteamid -split ":")[2]
+$steamprefix = ($csgodir -split "steamapps")[0]
+$configdir = $steamprefix + "userdata\" + ([decimal]$mysteamid*2) + "\730\local\cfg"
 
 
 <#
@@ -58,7 +62,7 @@ $datetime = (Get-Date -format "yyyyMMdd") + " - "
 $exporttxt = "$configdir\export.txt"
 $exporttxt_delim = "$configdir\export_delim.txt"
 $exportcfg = "$configdir\export.cfg"
-$bindcfg_name = "bindcfg.cfg"
+$bindcfg_name = "userstats_bind.cfg"
 $bindcfg = "$configdir\$bindcfg_name"
 
 # $exporttxt = Out-Null
@@ -303,7 +307,7 @@ if ($key) {
     # bind the key, ignore userstats0 because this is just the header line
     set-content $bindcfg -value "bind $key userstats1", (gc $bindcfg)
 
-    Add-Content -path $bindcfg -value "alias userstats$x `"say done`"; bind $key userstats1`""
+    Add-Content -path $bindcfg -value "alias userstats$x `"say done; bind $key userstats1`""
 
     }
 
@@ -347,8 +351,8 @@ if ($key) {
     set-content $exportcfg -value "exec $bindcfg_name", (gc $exportcfg)
     }
 
-# may want to remove "(none)" in $bindcfg
-
+# may want to remove ", (none)" in $bindcfg
+(get-content $bindcfg) -replace ', (none)','' | set-content $bindcfg
 
 <# done #>
 Write-Host "done"
