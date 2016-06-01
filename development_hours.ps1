@@ -1,26 +1,16 @@
 $csgodir = "C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo"
 $configdir = "C:\Program Files (x86)\Steam\userdata\993812\730\local\cfg"
-<# CHANGE THESE VALUES #>
+$key = "k"
+# CHANGE THESE VALUES #>
 
 
 
 <#
-    todo
-        account for other league's division names. eg I've seen CAL-im = "CSIM"
-        create functions for repetitive tasks. eg, create "clean" function for resetting $currentbest and $best
-        add funny random blurbs to post as experience for bots
-        add a "best user" feature that shows who has the best experience
-        add checking logic for when condump000.txt does not exist. remind the user to export it first, pause powershell, and tell them to press any key to continue
-        consider making a scheduler that, when it sees condump000.txt, execs the ps1
-        add support for if legit-proof.com is down
-        show how much csgo time the user has played
-        add support for if the user accidentally runs condump multiple times from ingame before running the ps1
-        make the output nicer
-
     bugs
         the content in console is not reliably sent directly to the export via condump. aliases can be truncated, as well as the double quotes that surround them.
         will randomly get an error and have to restart ISE, maybe only an ISE issue.
             "Exception from HRESULT: 0x800A01B6" caused by line "$full = ($html.ParsedHtml.getElementsByTagName(‘td’) | Where ..."
+        if there is only one user in the condump, $allaliases.Length returns the length of the one alias, not how many aliases there are
 #>
 
 <# early checks #>
@@ -68,11 +58,21 @@ $datetime = (Get-Date -format "yyyyMMdd") + " - "
 $exporttxt = "$configdir\export.txt"
 $exporttxt_delim = "$configdir\export_delim.txt"
 $exportcfg = "$configdir\export.cfg"
+$bindcfg_name = "bindcfg.cfg"
+$bindcfg = "$configdir\$bindcfg_name"
+
 # $exporttxt = Out-Null
 
+
+<# remove old stuff - get rid of this section and the need for temp files, eventually #>
 # remove previous export.txt/export.cfg files, if any exist
     if (Test-Path "$configdir\export*") {
         Remove-Item "$configdir\export*"
+    }
+
+# remove previous $bindcfg files, if any exist
+    if (Test-Path "$bindcfg") {
+        Remove-Item "$bindcfg"
     }
 
 
@@ -176,7 +176,7 @@ foreach ($rawid in $allsteamids_raw) {
 
             
             if (($full | Where { $_.className -like '*private_profile*' })) {
-                "Private" | set-variable -name "hours$x"
+                "Private Profile" | set-variable -name "hours$x"
             } else {
                 $hours | set-variable -name "hours$x"
             }
@@ -283,6 +283,31 @@ foreach ($id in $allsteamids) {
 # " " >> $exporttxt
 # $absolutebest >> $exporttxt
 
+# if $bind has been set, export the bindcfg and add a line to execute it in the $exportcfg
+# if $bind is not set, the user doesn't want this feature
+# reset $x
+$x=0
+if ($key) {
+
+    foreach($line in (gc $exporttxt) -replace "\|",", ") {
+
+        # you should also replace any semi colons just to be safe
+
+        $combine = "alias userstats" + $x + " `"say " + $line + "; bind " + $key + " userstats" + ($x+1) + "`""
+
+        Add-Content -path $bindcfg -value $combine
+
+        $x=$x+1
+    }
+
+    # bind the key, ignore userstats0 because this is just the header line
+    set-content $bindcfg -value "bind $key userstats1", (gc $bindcfg)
+
+    Add-Content -path $bindcfg -value "alias userstats$x `"say done`"; bind $key userstats1`""
+
+    }
+
+
 
 <# save the results to export.cfg #>
 Write-Host ""
@@ -313,7 +338,16 @@ foreach($line in (gc $exporttxt_delim)) {
 
 # add a "clear" line to the export. we didn't do this earlier, because we don't want it formatted with double quotes
 set-content $exportcfg -value "clear", (gc $exportcfg)
+# also execute the $bindcfg, if $bind is used
+if ($key) {
+    
+    Write-Host "binding $key to send results in mm1..."
+    Write-Host ""
+    
+    set-content $exportcfg -value "exec $bindcfg_name", (gc $exportcfg)
+    }
 
+# may want to remove "(none)" in $bindcfg
 
 
 <# done #>
