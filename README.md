@@ -12,7 +12,7 @@ in December 2015, Valve updated the default path to store csgo cfgs. you will ne
 ### prepare powershell
 powershell does not allow you to execute scripts you've downloaded from the internet by default.
 
-* press Win + S, type "powershell" without quotes. Right click Windows Powershell and Run As Administrator
+* press Win + S, type "powershell" without quotes (do not press enter). Right click Windows Powershell and Run As Administrator
 * type "Set-ExecutionPolicy RemoteSigned" without quotes. when asked, type Y and press enter
 
 ### run the script
