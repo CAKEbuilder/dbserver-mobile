@@ -6,8 +6,9 @@ edit the .ps1 with Notepad and change the first three lines. if you don't want t
 
 * save the .ps1 anywhere on your computer
 * right click the .ps1 and edit it with any text editor
-* change the path in the double quotes for $csgodir to match your computer's directory to csgo (usually "C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo")
-* change the path in the double quotes for configdir to match your computer's directory to csgo config files (usually "C:\Program Files (x86)\Steam\userdata\%acc_specific_numbers%\730\local\cfg")
+* enter your steamid in the double quotes of the first line
+* enter your csgo directory in the double quotes of the second line
+* (ignore the 3rd line for now)
 
 ### prepare powershell
 powershell does not allow you to execute scripts you've downloaded from the internet by default.
