@@ -6,6 +6,7 @@
 * error check for if the two path variables are set incorrectly and the paths aren't found
 * create a bind that outputs the first line, then rebinds to the next line's alias, finish with "done"
 * create an automatic install file
+* rename this project, it is now more than just a query to legit-proof
 
 # bugs
 *   the content in console is not reliably sent directly to the export via condump. aliases can be truncated, as well as the double quotes that surround them. plenty of examples. tweeted @csgo_dev, no response
