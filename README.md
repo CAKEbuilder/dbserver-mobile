@@ -2,7 +2,7 @@ Get league history for users in your current session
 
 # instructions
 ### prepare the script
-in December 2015, Valve updated the default path to store csgo cfgs. you will need to edit the .ps1 file to match your unique csgo cfg path ($configdir), and to confirm your csgo directory path ($csgodir) if you installed csgo somewhere other than the default location). edit the first two lines of the .ps1 and update the paths in the double quotes.
+edit the .ps1 with Notepad and change the first three lines. if you don't want the bind, just leave it blank.
 
 * save the .ps1 anywhere on your computer
 * right click the .ps1 and edit it with any text editor
