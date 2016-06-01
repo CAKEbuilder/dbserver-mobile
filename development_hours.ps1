@@ -100,6 +100,15 @@ $allsteamids = $condump | foreach {
                                     -replace ' ',''
                           }
 
+$allsteamids_raw = $condump | foreach {
+                                    # remove "STEAM_"
+                                    $steamid = $_ -split "STEAM_"
+
+                                    # replace everything after first trailing space of the Steam ID, replace ":" with "%3A" (for legit-proof.com formatting), remove trailing space
+                                    $steamid[1] -replace '^([^ ]+ ).+$','$1' `
+                                    -replace ' ',''
+                          }
+
 <# extract/save the alias #>
 $i = 1
 $allaliases = $condump | foreach {
@@ -111,14 +120,64 @@ $allaliases = $condump | foreach {
 
 # create the base header row
 # this defines the columns we'll use
-"[alias](steamid)|[division]|[league]|[team]|[alias]" >> $exporttxt
+"alias(steamid)|hours|division|league|team|name" >> $exporttxt
 
-
-# loop through all the steam ids
 
 Write-Host "evaluating users (" $allaliases.Length ")..."
 Write-Host ""
 
+
+<# calculate each user's communityid #>
+$x=0
+foreach ($rawid in $allsteamids_raw) {
+
+            # need to handle ignoring bots
+            
+            # steamid format - STEAM_X:Y:Z
+            # we don't need X
+            $rawidY = ($rawid -split ":")[1]
+            $rawidZ = ($rawid -split ":")[2]
+            # incidentally, this is the unique number used to distinguish accounts on your local machine. remember the "random" number in the $configdir path?
+            $accnumber = ([decimal]$rawidZ * 2)
+            $communityid = ($accnumber) + 76561197960265728 + $rawidY
+            $communityurl = "http://steamcommunity.com/profiles/" + $communityid
+
+            # for testing
+            # $rawid + "     " + $rawidY + "     " +  $rawidZ + "     " +  $accnumber + "     " +  $communityid + "     " + $communityurl
+
+            # for consistency's sake, match the format used in the legit-proof loop
+            $url = $communityurl
+            $html = Invoke-WebRequest -Uri $url
+
+            # to find what we can scrape for to distinguish private and public profiles
+            #$html.AllElements >> dump.txt
+
+            # the CSGO recently played section
+            # $html.ParsedHtml.getElementsByClassName('game_info') | Where { $_.innerHTML -like "*Counter-Strike: Global Offensive*" }
+            # ($html.ParsedHtml.getElementsByClassName('game_info') | Where { $_.innerHTML -like "*Counter-Strike: Global Offensive*" }).textContent
+
+            # get-variable -name "hours$x" -valueonly
+            
+            
+            # get hours played on record
+            $hours = ($html.ParsedHtml.getElementsByClassName('game_info') | Where { $_.innerHTML -like "*Counter-Strike: Global Offensive*" }).textContent -split 'on' | Select-Object -first 1
+            
+            # check if the profile is private
+            $full = $html.ParsedHtml.getElementsByClassName('no_header')
+
+            
+            if (($full | Where { $_.className -like '*private_profile*' })) {
+                "Private" | set-variable -name "hours$x"
+            } else {
+                $hours | set-variable -name "hours$x"
+            }
+            
+
+            $x = $x+1
+}
+
+
+# reset $x
 $x=0
 foreach ($id in $allsteamids) {
 
@@ -141,23 +200,23 @@ foreach ($id in $allsteamids) {
                                 if ($full[$i] -like '*Invite*') { 
                                 #if ($full[$i] -like '*banana*') { 
     
-                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")|" + $full[$i] + "|" + $full[$i-1] + "|" + $full[$i-2] + "|" + $full[$i-3]
+                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")|" + (get-variable -name "hours$x" -ValueOnly) + "|" + $full[$i] + "|" + $full[$i-1] + "|" + $full[$i-2] + "|" + $full[$i-3]
                                     # store the current best division. do not overwrite if of a lesser division
                                     $currentbest = "invite"
 
                                 } elseif ($full[$i] -like '*Main*' -and $currentbest -ne "invite") {
         
-                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")|" + $full[$i] + "|" + $full[$i-1] + "|" + $full[$i-2] + "|" + $full[$i-3]
+                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")|" + (get-variable -name "hours$x" -ValueOnly) + "|" + $full[$i] + "|" + $full[$i-1] + "|" + $full[$i-2] + "|" + $full[$i-3]
                                     $currentbest = "main"
 
                                 } elseif ($full[$i] -like '*Intermediate*' -and $currentbest -ne "invite" -and $currentbest -ne "main") {
         
-                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")|" + $full[$i] + "|" + $full[$i-1] + "|" + $full[$i-2] + "|" + $full[$i-3]
+                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")|" + (get-variable -name "hours$x" -ValueOnly) + "|" + $full[$i] + "|" + $full[$i-1] + "|" + $full[$i-2] + "|" + $full[$i-3]
                                     $currentbest = "im"
 
                                 } elseif ($full[$i] -like '*Open*' -and $currentbest -ne "invite" -and $currentbest -ne "main" -and $currentbest -ne "im") {
         
-                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")|" + $full[$i] + "|" + $full[$i-1] + "|" + $full[$i-2] + "|" + $full[$i-3]
+                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")|" + (get-variable -name "hours$x" -ValueOnly) + "|" + $full[$i] + "|" + $full[$i-1] + "|" + $full[$i-2] + "|" + $full[$i-3]
                                     $currentbest = "open"
                                   
                                 # if $currentbest is null (hasn't been set), we don't know about this division
@@ -186,7 +245,7 @@ foreach ($id in $allsteamids) {
                     # we normally grab the steamid from the html table. we know what it is though, so we just need to unformat it.
                     $id_reformatted = $id -replace '%3A',':'
         
-                    $best = $allaliases[$x] + " (" + $id_reformatted + ")|" + "This noob has no experience..."
+                    $best = $allaliases[$x] + " (" + $id_reformatted + ")|" + (get-variable -name "hours$x" -ValueOnly) + "|" + "(none)"
 
                 }
 
@@ -203,6 +262,7 @@ foreach ($id in $allsteamids) {
                 
                 $x = $x + 1
 }
+
 
 # show the user who has the highest league experience (you haven't added this in yet)
 # " " >> $exporttxt
@@ -221,9 +281,9 @@ Import-CSV $exporttxt -Delimiter "|" | Format-Table -AutoSize | Out-File -encodi
 
 # add more header info
 # encoding to preserve special characters in aliases. this makes it to $exporttxt_delim, but is pointless since we don't encode $exportcfg later. need to revisit this
-set-content -encoding UTF8 $exporttxt_delim -value "---------------------------------------", (gc $exporttxt_delim)
-set-content -encoding UTF8 $exporttxt_delim -value "[CAKEbuilder's legit-proof.com lookup]", (gc $exporttxt_delim)
-set-content -encoding UTF8 $exporttxt_delim -value "---------------------------------------", (gc $exporttxt_delim)
+set-content -encoding UTF8 $exporttxt_delim -value "-------------------------------------", (gc $exporttxt_delim)
+set-content -encoding UTF8 $exporttxt_delim -value "CAKEbuilder's legit-proof.com lookup", (gc $exporttxt_delim)
+set-content -encoding UTF8 $exporttxt_delim -value "-------------------------------------", (gc $exporttxt_delim)
 
 
 foreach($line in (gc $exporttxt_delim)) {
