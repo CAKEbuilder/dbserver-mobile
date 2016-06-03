@@ -1,4 +1,4 @@
-Show hours played and league experience for all players in the game you're in.
+Show hours played and league experience for all players in the game you're in. Works in public servers, MM, ect.
 
 # instructions
 ### prepare the script
