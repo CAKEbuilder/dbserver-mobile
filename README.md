@@ -2,28 +2,26 @@ Show hours played and league experience for all players in the game you're in.
 
 # instructions
 ### prepare the script
-edit the .ps1 with Notepad and change the first three lines. if you don't want the bind, just leave it blank.
+simply edit the "script" file with Notepad and change the first three lines.
 
-* save the .ps1 anywhere on your computer
-* right click the .ps1 and edit it with any text editor
+* save the "script" file anywhere on your computer
+* right click the script, click and edit, click Notepad
 * enter your steamid in the double quotes of the first line
-* enter your csgo directory in the double quotes of the second line
-* enter in a key to bind an additional script to
-** this is not required. if you assign this bind to "k", every time you press "k" in game, a different user's results will be sent to mm1. if you do not want this, don't put anything in the double quotes.
-* save and close the file
+* enter your csgo directory in the double quotes of the second line (if you installed CSGO to the default directory, you don't need to change this)
+* the third line is optional, put nothing inside the double quotes to skip it. if you decide to use this, enter a button (eg "k"). every time you press "k" in game, one line of the results will be sent to mm1 at a time.
+* save and close notepad
 
 ### prepare powershell
-powershell does not allow you to execute scripts you've downloaded from the internet by default.
+quickly change your powershell settings
 
-* press Win + S, type "powershell" without quotes (do not press enter). Right click Windows Powershell and Run As Administrator
-* type "Set-ExecutionPolicy RemoteSigned" without quotes. when asked, type Y and press enter
+* click on the Windows start menu, type "powershell" without quotes and do not press enter. right click "Windows Powershell", then click Run As Administrator
+* copy this line and paste it into powershell (don't copy the quotes): "Set-ExecutionPolicy RemoteSigned"
+* when asked, type Y and press enter
 
-### run the script
-* launch csgo and join a game with players. open the console
-* type "clear", press enter
-* type "status", press enter
-* type "condump", press enter
-* minimize csgo, right click the .ps1 file, and click Run with Powershell
-	
-### get the results
-* when the script finishes, type "exec export" in console
+# once you've done everything above this point, the script is setup. you will not have to repeate any of those steps again.
+
+### using the script
+* launch csgo and join a game with players (public is fine). open the console
+* type "clear", press enter. type "status", press enter. type "condump", press enter
+* minimize csgo, right click the script file, and click Run with Powershell. powershell will open and show you the progress
+* when the script is finished, powershell will close. now in csgo, type "exec export" in the console
