@@ -1,4 +1,4 @@
-Get league history for users in your current session
+Show hours played and league experience for all players in the game you're in.
 
 # instructions
 ### prepare the script
