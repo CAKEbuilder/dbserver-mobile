@@ -8,7 +8,8 @@ edit the .ps1 with Notepad and change the first three lines. if you don't want t
 * right click the .ps1 and edit it with any text editor
 * enter your steamid in the double quotes of the first line
 * enter your csgo directory in the double quotes of the second line
-* (ignore the 3rd line for now)
+* enter in a key to bind an additional script to
+** this is not required. if you assign this bind to "k", every time you press "k" in game, a different user's results will be sent to mm1. if you do not want this, don't put anything in the double quotes.
 * save and close the file
 
 ### prepare powershell
