@@ -1,26 +1,63 @@
-$mysteamid = "0:1:496906"
-$csgodir = "C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo"
-$key = "k"
-# CHANGE THESE VALUES #>
+# define the parameters passed by the batch file
+Param(
+	[string]$mysteamid,
+	[string]$csgodir,
+    [string]$key
+)
 
+# make sure the steamid variable doesn't have letters in it (I expect users might accidentally enter in the "STEAM_X:Y:Z" format
+if ($mysteamid -match '[a-zA-Z]') {
+    clear
+    Write-Host "[Error] - your SteamID contains letters, and it shouldn't."
+    Write-Host ""
+    Write-Host "Expected format:   0:1:2345678"
+    Write-Host "You entered:      "$mysteamid
+    Write-Host ""
+    Write-Host "run the setup file and enter your steamid again"
+    Write-Host ""
 
+    pause
+    exit
+    }
+
+# calculate stuff
+$mysteamidX = ($mysteamid -split ":")[0]
+$mysteamidY = ($mysteamid -split ":")[1]
 $mysteamid = ($mysteamid -split ":")[2]
 $steamprefix = ($csgodir -split "steamapps")[0]
-$configdir = $steamprefix + "userdata\" + ([decimal]$mysteamid*2) + "\730\local\cfg"
+$configdir = $steamprefix + "userdata\" + ([decimal]$mysteamid*2+$mysteamidY) + "\730\local\cfg"
 
 
-<#
-    bugs
-        the content in console is not reliably sent directly to the export via condump. aliases can be truncated, as well as the double quotes that surround them.
-        will randomly get an error and have to restart ISE, maybe only an ISE issue.
-            "Exception from HRESULT: 0x800A01B6" caused by line "$full = ($html.ParsedHtml.getElementsByTagName(‘td’) | Where ..."
-        if there is only one user in the condump, $allaliases.Length returns the length of the one alias, not how many aliases there are
-#>
+# make sure $mysteamid is set (jazz this check up later)
+if (!$mysteamid) {
+    clear
+    Write-Host "[Error] - your SteamID isn't set."
+    Write-Host ""
+    Write-Host "run the setup file and enter your steamid again"
+    Write-Host ""
 
-<# early checks #>
+    pause
+    exit
+    }
+
+# make sure we can find the $configdir based on the steamid we're using
+if (-Not (Test-Path $configdir)) {
+    clear
+    Write-Host "[Error] - can't locate your config directory"
+    Write-Host ""
+    Write-Host "this means you entered your steamid incorrectly, or in the wrong format"
+    Write-Host "Expected format:   0:1:2345678"
+    Write-Host "You entered:      "$mysteamid
+    Write-Host ""
+    Write-Host "run the setup file and enter your steamid again"
+    Write-Host ""
+
+    pause
+    exit
+} 
+
 # make sure a condump file exists. if not, let the user know what to do, then exit the script
 $condump_file = Get-ChildItem "$csgodir\condump*.txt"
-
 if (!$condump_file) {
 	Write-Host "There is no condump file."
 	Write-Host "Open a CSGO, join a game, then type clear, status, condump."
@@ -32,8 +69,8 @@ if (!$condump_file) {
 	}
 
 # test the connection to legit-proof.com
-# if there is an error, inform the user, then exit the script
-# if there is no error, send the content to null, because we don't care what it is - only that we got something back
+#    if there is an error, inform the user, then exit the script
+#    if there is no error, send the content to null, because we don't care what it is - only that we got something back
 $url = "http://legit-proof.com"
 # fail for testing
 # $url = "banana"
@@ -48,52 +85,28 @@ try {
 	}
 
 
-
-<# definitions #>
-# set the latest condump file as our target. this is no longer a fixed file name, and will not require remove-item for old files
-# reset $condump_file
+# definitions
 $condump_file = Get-ChildItem "$csgodir\condump*.txt" | select-object -last 1
 $condump = Get-Content $condump_file | Select-String -Pattern "^#" | Select-Object -Skip 1 | Select-Object -SkipLast 1
-
-# date/time stamp for logging
 $datetime = (Get-Date -format "yyyyMMdd") + " - "
-
-# enable/disable export when testing
+$exportcfg = "$configdir\export.cfg"
 $exporttxt = "$configdir\export.txt"
 $exporttxt_delim = "$configdir\export_delim.txt"
-$exportcfg = "$configdir\export.cfg"
 $bindcfg_name = "userstats_bind.cfg"
 $bindcfg = "$configdir\$bindcfg_name"
 
-# $exporttxt = Out-Null
+
+# purge old stuff. get rid of this section in the future, along with the need for temp files
+if (Test-Path "$configdir\export*") {
+    Remove-Item "$configdir\export*"
+}
+
+if (Test-Path "$bindcfg") {
+    Remove-Item "$bindcfg"
+}
 
 
-<# remove old stuff - get rid of this section and the need for temp files, eventually #>
-# remove previous export.txt/export.cfg files, if any exist
-    if (Test-Path "$configdir\export*") {
-        Remove-Item "$configdir\export*"
-    }
-
-# remove previous $bindcfg files, if any exist
-    if (Test-Path "$bindcfg") {
-        Remove-Item "$bindcfg"
-    }
-
-
-
-
-
-
-<# extract the alias' from the double quotes #>
-<#
-$condump | foreach {
-    $alias = $_ -split "`""
-    $alias[1]
-        }
-#<
-
-
-<# extract/save the Steam ID #>
+# extract/save the Steam ID
 $allsteamids = $condump | foreach {
                                     # remove "STEAM_"
                                     $steamid = $_ -split "STEAM_"
@@ -349,10 +362,13 @@ if ($key) {
     Write-Host ""
     
     set-content $exportcfg -value "exec $bindcfg_name", (gc $exportcfg)
+    
+    # may want to remove ", (none)" in $bindcfg
+    (get-content $bindcfg) -replace ', (none)','' | set-content $bindcfg
+
     }
 
-# may want to remove ", (none)" in $bindcfg
-(get-content $bindcfg) -replace ', (none)','' | set-content $bindcfg
+
 
 <# done #>
 Write-Host "done"
