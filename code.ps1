@@ -219,7 +219,7 @@ foreach ($id in $allsteamids) {
         # get the data we want
         # this only considers the first page of legit-proof, a max of 20 rec.
         # to do: figure out how to capture multiple pages. the best division might be on page 2, ect
-        $full = ($html.ParsedHtml.getElementsByTagName(‘td’) | Where { $_.className -ne ‘text-center’ } ).innerText
+        $full = ($html.ParsedHtml.getElementsByTagName('td') | Where { $_.className -ne 'text-center' } ).innerText
 
         # if you found td elements on the page, continue processing.
         # if not, the user has no experience. ridicule them.
