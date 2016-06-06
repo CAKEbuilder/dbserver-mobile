@@ -160,10 +160,7 @@ foreach ($rawid in $allsteamids_raw) {
             # progress bar, to let users know we are dilligently scraping Steam's site
             # something like this...
             #Write-Progress -Activity "collecting hours played" -status "Searching player X of Y" -PercentComplete ($x / ($allsteamids_raw.Length))
-
-
-            # need to handle ignoring bots
-            
+           
             # steamid format - STEAM_X:Y:Z
             # we don't need X
             $rawidY = ($rawid -split ":")[1]
@@ -279,7 +276,9 @@ foreach ($id in $allsteamids) {
                 # if the $id is null, we are evaluating a bot...
                 if (!$id) {
 
-                    $best = $allaliases[$x] + " (BOT) ," +  (get-variable -name "hours$x" -ValueOnly) + "," + $allaliases[$x] + " has seen more than you know..."
+                    #$best = $allaliases[$x] + " (BOT) ," +  (get-variable -name "hours$x" -ValueOnly) + "," + $allaliases[$x] + " has seen more than you know..."
+                    # attempt to show bot's hours as "X"
+                    $best = $allaliases[$x] + " (BOT) , X, (none)"
                     $currentbest = "bot"
 
                 } else {                          
