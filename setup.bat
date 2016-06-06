@@ -13,7 +13,9 @@ echo %mysteamid%> settings.txt
 :setcsgodir
 rem clear the value, otherwise if the user made a mistake, pressing Enter will not use the default dir
 set "csgodir="
-set /p csgodir="Enter your CSGO directory (just press Enter if it is the default directory): "
+echo Enter your CSGO directory
+echo Default directory: C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo
+set /p csgodir="just press Enter if it is the default directory: "
 rem if they press Enter, set to default dir
 rem evaluating this variable with double quotes, to preserve spaces in the user input
 IF ["%csgodir%"] == [""] set csgodir=C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo
