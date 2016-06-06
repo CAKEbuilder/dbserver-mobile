@@ -47,7 +47,7 @@ if (-Not (Test-Path $configdir)) {
     Write-Host ""
     Write-Host "this means you entered your steamid incorrectly, or in the wrong format"
     Write-Host "Expected format:   0:1:2345678"
-    Write-Host "You entered:      "$mysteamid
+    Write-Host "You entered:      "$mysteamidX$mysteamidY$mysteamid
     Write-Host ""
     Write-Host "run the setup file and enter your steamid again"
     Write-Host ""
@@ -137,7 +137,7 @@ $allaliases = $condump | foreach {
 
 # create the base header row
 # this defines the columns we'll use
-"alias(steamid)|hours|division|league|team|name" >> $exporttxt
+"alias(steamid)≝hours≝division≝league≝team≝name" >> $exporttxt
 
 
 Write-Host "number of users: (" $allaliases.Length ")"
@@ -232,28 +232,28 @@ foreach ($id in $allsteamids) {
                                 if ($full[$i] -like '*Invite*') { 
                                 #if ($full[$i] -like '*banana*') { 
     
-                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")|" + (get-variable -name "hours$x" -ValueOnly) + "|" + $full[$i] + "|" + $full[$i-1] + "|" + $full[$i-2] + "|" + $full[$i-3]
+                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")≝" + (get-variable -name "hours$x" -ValueOnly) + "≝" + $full[$i] + "≝" + $full[$i-1] + "≝" + $full[$i-2] + "≝" + $full[$i-3]
                                     # store the current best division. do not overwrite if of a lesser division
                                     $currentbest = "invite"
 
                                 } elseif ($full[$i] -like '*Main*' -and $currentbest -ne "invite") {
         
-                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")|" + (get-variable -name "hours$x" -ValueOnly) + "|" + $full[$i] + "|" + $full[$i-1] + "|" + $full[$i-2] + "|" + $full[$i-3]
+                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")≝" + (get-variable -name "hours$x" -ValueOnly) + "≝" + $full[$i] + "≝" + $full[$i-1] + "≝" + $full[$i-2] + "≝" + $full[$i-3]
                                     $currentbest = "main"
 
                                 } elseif ($full[$i] -like '*Intermediate*' -and $currentbest -ne "invite" -and $currentbest -ne "main") {
         
-                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")|" + (get-variable -name "hours$x" -ValueOnly) + "|" + $full[$i] + "|" + $full[$i-1] + "|" + $full[$i-2] + "|" + $full[$i-3]
+                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")≝" + (get-variable -name "hours$x" -ValueOnly) + "≝" + $full[$i] + "≝" + $full[$i-1] + "≝" + $full[$i-2] + "≝" + $full[$i-3]
                                     $currentbest = "im"
 
                                 } elseif ($full[$i] -like '*Open*' -and $currentbest -ne "invite" -and $currentbest -ne "main" -and $currentbest -ne "im") {
         
-                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")|" + (get-variable -name "hours$x" -ValueOnly) + "|" + $full[$i] + "|" + $full[$i-1] + "|" + $full[$i-2] + "|" + $full[$i-3]
+                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")≝" + (get-variable -name "hours$x" -ValueOnly) + "≝" + $full[$i] + "≝" + $full[$i-1] + "≝" + $full[$i-2] + "≝" + $full[$i-3]
                                     $currentbest = "open"
                                   
                                 # if $currentbest is null (hasn't been set), we don't know about this division
                                 } elseif (!$currentbest) { 
-                                                           $best = $allaliases[$x] + "(" + $full[$i-4] + ")|" + "Unrecognized division..."
+                                                           $best = $allaliases[$x] + "(" + $full[$i-4] + ")≝" + "Unrecognized division..."
                                                            $currentbest = "unknown"
 
                                                            # append the log with the league/division, so we know what else we should account for
@@ -269,7 +269,7 @@ foreach ($id in $allsteamids) {
                 # if the $id is null, we are evaluating a bot...
                 if (!$id) {
 
-                    $best = $allaliases[$x] + " (BOT)|" +  (get-variable -name "hours$x" -ValueOnly) + "|" + $allaliases[$x] + " has seen more than you know..."
+                    $best = $allaliases[$x] + " (BOT)≝" +  (get-variable -name "hours$x" -ValueOnly) + "≝" + $allaliases[$x] + " has seen more than you know..."
                     $currentbest = "bot"
 
                 } else {                          
@@ -277,7 +277,7 @@ foreach ($id in $allsteamids) {
                     # we normally grab the steamid from the html table. we know what it is though, so we just need to unformat it.
                     $id_reformatted = $id -replace '%3A',':'
         
-                    $best = $allaliases[$x] + " (" + $id_reformatted + ")|" + (get-variable -name "hours$x" -ValueOnly) + "|" + "(none)"
+                    $best = $allaliases[$x] + " (" + $id_reformatted + ")≝" + (get-variable -name "hours$x" -ValueOnly) + "≝" + "(none)"
 
                 }
 
@@ -306,7 +306,7 @@ foreach ($id in $allsteamids) {
 $x=0
 if ($key) {
 
-    foreach($line in (gc $exporttxt) -replace "\|",", ") {
+    foreach($line in (gc $exporttxt) -replace "\≝",", ") {
 
         # you should also replace any semi colons just to be safe
 
@@ -332,15 +332,17 @@ Write-Host "formatting results..."
 Write-Host ""
 
 
-
 # import the csv
-Import-CSV $exporttxt -Delimiter "|" | Format-Table -AutoSize | Out-File -encoding UTF8 $exporttxt_delim
+Import-CSV $exporttxt -Delimiter "≝" | Format-Table -AutoSize | Out-File $exporttxt_delim #-encoding UTF8 $exporttxt_delim
 
+
+<#
 # add more header info
 # encoding to preserve special characters in aliases. this makes it to $exporttxt_delim, but is pointless since we don't encode $exportcfg later. need to revisit this
 set-content -encoding UTF8 $exporttxt_delim -value "-------------------------------------", (gc $exporttxt_delim)
 set-content -encoding UTF8 $exporttxt_delim -value "CAKEbuilder's legit-proof.com lookup", (gc $exporttxt_delim)
 set-content -encoding UTF8 $exporttxt_delim -value "-------------------------------------", (gc $exporttxt_delim)
+#>
 
 
 foreach($line in (gc $exporttxt_delim)) {
@@ -349,9 +351,12 @@ foreach($line in (gc $exporttxt_delim)) {
     $back = "`""
 
     $combine = $front + $line + $back
-
-    Add-Content -path $exportcfg -value $combine
+    
+    #Add-Content -path $exportcfg -encoding UTF8 -value $combine
+    #$combine >> $exportcfg
+    $combine | Out-File $exportcfg -Append
 }
+
 
 # add a "clear" line to the export. we didn't do this earlier, because we don't want it formatted with double quotes
 set-content $exportcfg -value "clear", (gc $exportcfg)
