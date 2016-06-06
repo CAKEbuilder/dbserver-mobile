@@ -2,7 +2,7 @@
 Param(
 	[string]$mysteamid,
 	[string]$csgodir,
-    [string]$key
+	[string]$key
 )
 
 # make sure the steamid variable doesn't have letters in it (I expect users might accidentally enter in the "STEAM_X:Y:Z" format
