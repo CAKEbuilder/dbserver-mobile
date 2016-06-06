@@ -89,7 +89,7 @@ try {
 $condump_file = Get-ChildItem "$csgodir\condump*.txt" | select-object -last 1
 $condump = Get-Content $condump_file | Select-String -Pattern "^#" | Select-Object -Skip 1 | Select-Object -SkipLast 1
 $datetime = (Get-Date -format "yyyyMMdd") + " - "
-$exportcfg = "$configdir\export.cfg"
+$exportcfg = "$configdir\results.cfg"
 $exporttxt = "$configdir\export.txt"
 $exporttxt_delim = "$configdir\export_delim.txt"
 $bindcfg_name = "userstats_bind.cfg"
@@ -137,7 +137,7 @@ $allaliases = $condump | foreach {
 
 # create the base header row
 # this defines the columns we'll use
-"alias(steamid)≝hours≝division≝league≝team≝name" >> $exporttxt
+"alias(steamid)΅hours΅division΅league΅team΅name" >> $exporttxt
 
 
 Write-Host "number of users: (" $allaliases.Length ")"
@@ -232,28 +232,28 @@ foreach ($id in $allsteamids) {
                                 if ($full[$i] -like '*Invite*') { 
                                 #if ($full[$i] -like '*banana*') { 
     
-                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")≝" + (get-variable -name "hours$x" -ValueOnly) + "≝" + $full[$i] + "≝" + $full[$i-1] + "≝" + $full[$i-2] + "≝" + $full[$i-3]
+                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")΅" + (get-variable -name "hours$x" -ValueOnly) + "΅" + $full[$i] + "΅" + $full[$i-1] + "΅" + $full[$i-2] + "΅" + $full[$i-3]
                                     # store the current best division. do not overwrite if of a lesser division
                                     $currentbest = "invite"
 
                                 } elseif ($full[$i] -like '*Main*' -and $currentbest -ne "invite") {
         
-                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")≝" + (get-variable -name "hours$x" -ValueOnly) + "≝" + $full[$i] + "≝" + $full[$i-1] + "≝" + $full[$i-2] + "≝" + $full[$i-3]
+                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")΅" + (get-variable -name "hours$x" -ValueOnly) + "΅" + $full[$i] + "΅" + $full[$i-1] + "΅" + $full[$i-2] + "΅" + $full[$i-3]
                                     $currentbest = "main"
 
                                 } elseif ($full[$i] -like '*Intermediate*' -and $currentbest -ne "invite" -and $currentbest -ne "main") {
         
-                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")≝" + (get-variable -name "hours$x" -ValueOnly) + "≝" + $full[$i] + "≝" + $full[$i-1] + "≝" + $full[$i-2] + "≝" + $full[$i-3]
+                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")΅" + (get-variable -name "hours$x" -ValueOnly) + "΅" + $full[$i] + "΅" + $full[$i-1] + "΅" + $full[$i-2] + "΅" + $full[$i-3]
                                     $currentbest = "im"
 
                                 } elseif ($full[$i] -like '*Open*' -and $currentbest -ne "invite" -and $currentbest -ne "main" -and $currentbest -ne "im") {
         
-                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")≝" + (get-variable -name "hours$x" -ValueOnly) + "≝" + $full[$i] + "≝" + $full[$i-1] + "≝" + $full[$i-2] + "≝" + $full[$i-3]
+                                    $best = $allaliases[$x] + "(" + $full[$i-4] + ")΅" + (get-variable -name "hours$x" -ValueOnly) + "΅" + $full[$i] + "΅" + $full[$i-1] + "΅" + $full[$i-2] + "΅" + $full[$i-3]
                                     $currentbest = "open"
                                   
                                 # if $currentbest is null (hasn't been set), we don't know about this division
                                 } elseif (!$currentbest) { 
-                                                           $best = $allaliases[$x] + "(" + $full[$i-4] + ")≝" + "Unrecognized division..."
+                                                           $best = $allaliases[$x] + "(" + $full[$i-4] + ")΅" + "Unrecognized division..."
                                                            $currentbest = "unknown"
 
                                                            # append the log with the league/division, so we know what else we should account for
@@ -269,7 +269,7 @@ foreach ($id in $allsteamids) {
                 # if the $id is null, we are evaluating a bot...
                 if (!$id) {
 
-                    $best = $allaliases[$x] + " (BOT)≝" +  (get-variable -name "hours$x" -ValueOnly) + "≝" + $allaliases[$x] + " has seen more than you know..."
+                    $best = $allaliases[$x] + " (BOT)΅" +  (get-variable -name "hours$x" -ValueOnly) + "΅" + $allaliases[$x] + " has seen more than you know..."
                     $currentbest = "bot"
 
                 } else {                          
@@ -277,7 +277,7 @@ foreach ($id in $allsteamids) {
                     # we normally grab the steamid from the html table. we know what it is though, so we just need to unformat it.
                     $id_reformatted = $id -replace '%3A',':'
         
-                    $best = $allaliases[$x] + " (" + $id_reformatted + ")≝" + (get-variable -name "hours$x" -ValueOnly) + "≝" + "(none)"
+                    $best = $allaliases[$x] + " (" + $id_reformatted + ")΅" + (get-variable -name "hours$x" -ValueOnly) + "΅" + "(none)"
 
                 }
 
@@ -306,7 +306,7 @@ foreach ($id in $allsteamids) {
 $x=0
 if ($key) {
 
-    foreach($line in (gc $exporttxt) -replace "\≝",", ") {
+    foreach($line in (gc $exporttxt) -replace "\΅",", ") {
 
         # you should also replace any semi colons just to be safe
 
@@ -326,14 +326,14 @@ if ($key) {
 
 
 
-<# save the results to export.cfg #>
+<# save the results to results.cfg #>
 Write-Host ""
 Write-Host "formatting results..."
 Write-Host ""
 
 
 # import the csv
-Import-CSV $exporttxt -Delimiter "≝" | Format-Table -AutoSize | Out-File $exporttxt_delim #-encoding UTF8 $exporttxt_delim
+Import-CSV $exporttxt -Delimiter "΅" | Format-Table -AutoSize | Out-File $exporttxt_delim #-encoding UTF8 $exporttxt_delim
 
 
 <#
