@@ -2,10 +2,12 @@
 * account for other division names. unexpected names are saved to $configdir\log.txt
 * instead of asking the user for their steamid, find all configdir folders yourself.
 * account for double quotes in an alias
-* add dump binds:
- * bind [ dump1
- * alias dump1 "clear; status; bind [ dump2"
- * alias dump2 "condump; bind [ dump1"
+* provide user with dump binds for autoexec:
+ * // condump
+ * bind [ +dump
+ * alias +dump "clear; status"
+ * alias -dump "condump"
+ * bind ] "exec results"
 * error check each ID read from condump. if condump fails to export correctly, skip the record and try to continue
 
 
