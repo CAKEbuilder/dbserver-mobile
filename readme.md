@@ -1,4 +1,4 @@
-Show hours played and league experience for all players in the game you're in. Works in public servers, MM, ect.
+tool for MM and public servers. shows hours played and league experience for all players in the game you're in.
 
 # setup instructions
 * save the files to a folder anywhere on your computer
