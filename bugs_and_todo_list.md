@@ -1,5 +1,4 @@
 # todo
-* find all configdir folders yourself instead of prompting for the user's steamid. this will remove the need for a setup file.
 * account for double quotes in an alias
 * provide user with dump binds for autoexec:
  * // condump
