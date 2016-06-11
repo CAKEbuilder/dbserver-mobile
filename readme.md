@@ -1,7 +1,7 @@
 tool for MM and public servers. shows hours played and league experience for all players in the game you're in.
 
 # setup instructions
-* download the .zip, extract the folder anywhere on your computer: https://github.com/CAKEbuilder/dbserver-mobile/archive/master.zip
+* download the .zip and extract the folder anywhere on your computer: https://github.com/CAKEbuilder/dbserver-mobile/archive/master.zip
 
 # use the script
 * open csgo and join a game with players. open the console
