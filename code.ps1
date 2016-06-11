@@ -13,7 +13,7 @@ foreach ($found in $drives) {
     if (Test-Path "$drive\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\") {
         $csgodir = "$drive\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\"
         }
-
+        
     # find the config dir
     if (Test-Path "$drive\Program Files (x86)\Steam\userdata\") {
         foreach($folder in ((gci "$drive\Program Files (x86)\Steam\userdata\").Name)) {
@@ -31,10 +31,24 @@ foreach ($found in $drives) {
 
 # check if there are multiple csgo accounts on the computer.
 if (($locations).Length -gt 1) {
-    Write-Host 'there are multiple csgo accounts on this computer.'
+    #Write-Host 'there are multiple csgo accounts on this computer.'
     } else {
-    Write-Host 'only one csgo account found'
+    #Write-Host 'only one csgo account found'
 }
+
+Write-Host "locations ="$locations
+Write-Host "drives ="$drives
+Write-Host "csgodir ="$csgodir
+
+
+# break for testing
+exit
+
+
+
+
+
+
 
 <# lookup player info #>
 
