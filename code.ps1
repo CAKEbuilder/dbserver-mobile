@@ -1,66 +1,27 @@
 <# dynamically find all csgo directories on the computer #>
 
 # initialize the array
-write-host 'initializing the array'
 $locations = @()
 
 # get the drive letters. drivetype 3 is local disk, and should exclude network (4) and removable (2) drives
 # foreach($drive in (gwmi win32_logicaldisk -Filter "DriveType='3'").DeviceID) {
-write-host 'setting the drives variable'
-write-host ''
 $drives = Get-PSDrive -PSProvider FileSystem
-write-host 'entering foreach'
-write-host ''
 foreach ($found in $drives) { 
-    write-host 'seting the drive variable'
-    write-host ''
     $drive = $found.Name + ":"
-    write-host 'drive name'
-    write-host ''
-    $drive
     
-    write-host 'looking for the csgo dir'
-    write-host ''
     # find the csgo dir
-    write-host 'entering if'
-    write-host ''
     if (Test-Path "$drive\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\") {
-
-        write-host 'setting the csgodir'
-        write-host ''
         $csgodir = "$drive\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\"
-        write-host 'the csgodir variable is below'
-        $csgodir
-        write-host ''
-
-
         }
 
     # find the config dir
-    write-host 'entering another if'
-    write-host ''
     if (Test-Path "$drive\Program Files (x86)\Steam\userdata\") {
-        write-host 'entering another foreach'
-        write-host ''
         foreach($folder in ((gci "$drive\Program Files (x86)\Steam\userdata\").Name)) {
 
-            write-host 'location variable'
-            write-host ''
             $location = "$drive\Program Files (x86)\Steam\userdata\$folder\730\local\cfg"
-            write-host 'the location variable is below'
-            $location
-            write-host ''
-
-            #$folder
-            write-host 'testing path'
-            write-host ''
-            if (Test-Path "$drive\Program Files (x86)\Steam\userdata\$folder\730\local\cfg") {
+            if (Test-Path $location) {
 
                 $locations += $location
-                write-host 'here is the locations variable'
-                $locations
-                write-host ''
-
             } 
         }
     }
@@ -74,20 +35,6 @@ if (($locations).Length -gt 1) {
     } else {
     Write-Host 'only one csgo account found'
 }
-
-<# temporary start #>
-
-    Write-Host 'locations are below'
-    $locations
-    Write-Host ''
-    Write-Host 'csgo dir is below'
-    $csgodir
-    Write-Host ''
-
-
-
-<# temporary end #>
-
 
 <# lookup player info #>
 
