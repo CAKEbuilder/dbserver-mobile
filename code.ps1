@@ -6,9 +6,9 @@ $locations = @()
 # get the drive letters. drivetype 3 is local disk, and should exclude network (4) and removable (2) drives
 # foreach($drive in (gwmi win32_logicaldisk -Filter "DriveType='3'").DeviceID) {
 $drives = Get-PSDrive -PSProvider FileSystem
-foreach ($drive in $drives) { 
+foreach ($found in $drives) { 
 
-    $drive = $drive.Name + ":"
+    $drive = $found.Name + ":"
     
     # find the csgo dir
     if (Test-Path "$drive\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\") {
