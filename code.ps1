@@ -38,6 +38,15 @@ if (($locations).Length -gt 1) {
     Write-Host 'only one csgo account found'
 }
 
+<# temporary start #>
+
+    Write-Host 'locations are below'
+    $locations
+    Write-Host ''
+    Write-Host 'csgo dir is below'
+    $csgodir
+    Write-Host ''
+
 
 <# lookup player info #>
 
