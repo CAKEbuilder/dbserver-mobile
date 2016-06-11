@@ -1,4 +1,5 @@
 # todo
+* test on Powershell v4
 * account for double quotes in an alias
 * provide user with dump binds for autoexec:
  * // condump
@@ -14,5 +15,6 @@
 # bugs
 * (on valve) the content in console is not reliably sent to the export via the "condump" command. errors include standard characters in aliases being truncated, double quotes surrounding aliases, ect. tweeted @csgo_dev, no response
 * if there is only one user in the condump, $allaliases.Length returns the length (in characters) of the single alias, not how many aliases there are
+* not working on Powershell v2
 
 
