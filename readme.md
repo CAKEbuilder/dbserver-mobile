@@ -2,6 +2,7 @@ tool for MM and public servers. shows hours played and league experience for all
 
 # setup instructions
 * download the .zip and extract the folder anywhere on your computer: https://github.com/CAKEbuilder/dbserver-mobile/archive/master.zip
+* double click "version.bat". if there are no problems, you will be told to press any key to continue. if there are problems, download Windows Management Framework 4.0 (https://www.microsoft.com/en-us/download/details.aspx?id=40855)
 
 # use the script
 * open csgo and join a game with players. open the console
