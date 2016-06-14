@@ -1,4 +1,5 @@
 # todo
+* account for CS not being installed on the computer at all
 * organize folder structure so that all files users interact with are at the root, and resources are in a folder
 * remove recent changes made to support v2, since it simply will not work.
 * upgrade Alex to Powershell v4 and test
