@@ -14,6 +14,7 @@
 * account for other division names. unexpected names are exported to $configdir\log.txt
 * handle special characters in the alias
 * test if anti virus software cares about the batch, or that it calls powershell without using the profile's execution policy
+* during the next failure of the condump command, try con_log <filename>
 
 # bugs
 * (on valve) the content in console is not reliably sent to the export via the "condump" command. errors include standard characters in aliases being truncated, double quotes surrounding aliases, ect. tweeted @csgo_dev, no response
