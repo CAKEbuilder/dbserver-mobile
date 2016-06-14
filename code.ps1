@@ -27,29 +27,6 @@ foreach ($found in $drives) {
     }
 }
 
-
-
-# check if there are multiple csgo accounts on the computer.
-if (($locations).Length -gt 1) {
-    #Write-Host 'there are multiple csgo accounts on this computer.'
-    } else {
-    #Write-Host 'only one csgo account found'
-}
-
-Write-Host "locations ="$locations
-Write-Host "drives ="$drives
-Write-Host "csgodir ="$csgodir
-
-
-# break for testing
-exit
-
-
-
-
-
-
-
 <# lookup player info #>
 
 # here we go... massive foreach loop to parse the multiple directories...
