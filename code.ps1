@@ -4,28 +4,38 @@
 $locations = @()
 
 # get the drive letters. drivetype 3 is local disk, and should exclude network (4) and removable (2) drives
-# foreach($drive in (gwmi win32_logicaldisk -Filter "DriveType='3'").DeviceID) {
-$drives = Get-PSDrive -PSProvider FileSystem
-foreach ($found in $drives) { 
-    $drive = $found.Name + ":"
+foreach($drive in (gwmi win32_logicaldisk -Filter "DriveType='3'").DeviceID) {
     
     # find the csgo dir
     if (Test-Path "$drive\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\") {
+
         $csgodir = "$drive\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\"
-        }
         
+        }
+
     # find the config dir
     if (Test-Path "$drive\Program Files (x86)\Steam\userdata\") {
         foreach($folder in ((gci "$drive\Program Files (x86)\Steam\userdata\").Name)) {
 
             $location = "$drive\Program Files (x86)\Steam\userdata\$folder\730\local\cfg"
-            if (Test-Path $location) {
+
+            #$folder
+            if (Test-Path "$drive\Program Files (x86)\Steam\userdata\$folder\730\local\cfg") {
 
                 $locations += $location
+
             } 
         }
     }
 }
+
+# check if there are multiple csgo accounts on the computer.
+if (($locations).Length -gt 1) {
+    #Write-Host 'there are multiple csgo accounts on this computer.'
+    } else {
+    #Write-Host 'only one csgo account found'
+}
+
 
 <# lookup player info #>
 
@@ -147,6 +157,13 @@ foreach ($location in $locations) {
                                             $alias
                                             $i = $i + 3
                                   }
+
+        # if condump is null, assume the user used condump at the wrong time, and break
+        if (!$condump) {
+
+            Write-Host "your condump file doesn't have any users in it. join a game that has players, type clear/status/condump, then run this file again"
+            exit
+        }
 
 
         # create the base header row
