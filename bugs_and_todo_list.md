@@ -1,5 +1,4 @@
 # todo
-* fix output of psversion.ps1 when non compatable Powershell version is found. too many lines telling you to "press Enter".
 * organize folder structure so that all files users interact with are at the root, and resources are in a folder
 * account for cs not being installed on the computer at all
 * handle special characters in the alias
