@@ -17,3 +17,7 @@ the "condump" command sends the text from the console to a file (with some major
 
 # caveats
 the "condump" command unreliably sends text from the console to a file. it will frequently remove characters, misalign data, repeate data, ect. as a result, the output of the script may come out distorted. 
+
+# requirements
+* Windows 7, 8, 8.1, or 10
+* Powershell v5
