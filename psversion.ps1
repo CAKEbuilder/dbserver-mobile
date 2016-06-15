@@ -26,7 +26,7 @@ if ($psver -lt 4 ) {
 
     Start-Process $url
     Write-Host "Powershell version:"$psver
-    Write-Host "OS:"$arch
+    Write-Host "OS Arch:"$arch
     Write-Host ""
     Write-Host "this version is too low, download Powershell 5"
     Write-Host ""
@@ -36,7 +36,7 @@ if ($psver -lt 4 ) {
 } else {
     
     Write-Host "Powershell version:"$psver
-    Write-Host "OS:"$arch
+    Write-Host "OS Arch:"$arch
     Write-Host ""
     Write-Host "this version will work"
     Write-Host ""
