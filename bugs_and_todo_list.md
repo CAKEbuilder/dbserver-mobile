@@ -1,5 +1,4 @@
 # todo
-* if the users is on Windows 8, show the correct file to download
 * organize folder structure so that all files users interact with are at the root, and resources are in a folder
 * remove recent changes made to support v2, since it simply will not work.
 * upgrade Alex to Powershell v4 and test
