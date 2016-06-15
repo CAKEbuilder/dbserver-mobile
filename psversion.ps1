@@ -57,7 +57,7 @@ if ($arch -ne 'x86' -and $arch -ne 'x64') {
 
 
 # inform the user on what they need to do, if anything
-if ($psver -lt 4 ) {
+if ($psver -lt 5 ) {
 
     # open the download page using the default browser
     Start-Process $url
