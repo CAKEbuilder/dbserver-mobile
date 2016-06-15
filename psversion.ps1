@@ -10,8 +10,8 @@ if ([System.Environment]::OSVersion.Version.Major -eq 7) {
     $osver = '7'
     }
 # '-like' here because I'm not sure how 8.1 shows up even as a Major object...
-if ([System.Environment]::OSVersion.Version.Major -like 8) {
-    $osver = '8'
+if ([System.Environment]::OSVersion.Version.Major -like '*8*') {
+    $osver = '8/8.1'
     }
 if ([System.Environment]::OSVersion.Version.Major -eq 10) {
     $osver = '10'
@@ -32,7 +32,7 @@ if ($arch -eq 'x64') {
     if ($osver -eq '7') {
         $file2download = 'Win7AndW2K8R2-KB3134760-x64.msu'
     }
-    if ($osver -like '8') {
+    if ($osver -like '*8*') {
         $file2download = 'Win8.1AndW2K12R2-KB3134758-x64.msu'
     }
 }
@@ -40,7 +40,7 @@ if ($arch -eq 'x86') {
     if ($osver -eq '7') {
         $file2download = 'Win7-KB3134760-x86.msu'
     }
-    if ($osver -like '8') {
+    if ($osver -like '*8*') {
         $file2download = 'Win8.1-KB3134758-x86.msu'
     }
 }
