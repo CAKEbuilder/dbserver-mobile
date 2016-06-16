@@ -2,7 +2,7 @@
 
 echo.
 
-powershell.exe -executionpolicy bypass -file code.ps1
+powershell.exe -executionpolicy bypass -file code\run.ps1
 
 echo press any key to finish
 
