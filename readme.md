@@ -12,6 +12,7 @@
 # setup instructions
 * download the .zip and extract the folder anywhere on your computer: https://github.com/CAKEbuilder/dbserver-mobile/archive/master.zip
 * double click "requirements.bat". if you pass the requirements, you will be asked to press any key to continue. if not, your browser will open and the prompts will tell you which file to download (you only need to download one file).
+ * if you needed to download a file: install it, restart, and run the requirements file again to verify the installation.
 
 # using the script
 * open csgo and join a game with players. open the console
