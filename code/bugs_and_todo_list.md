@@ -1,5 +1,4 @@
 # todo
-* account for cs not being installed on the computer at all
 * handle special characters in the alias
 * account for double quotes in an alias
 * error check for malformed records in condump. if condump fails to export accurately, skip the record and continue
