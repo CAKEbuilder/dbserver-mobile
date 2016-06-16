@@ -1,10 +1,19 @@
-tool for MM and public servers. shows hours played and league experience for all players in the game you're in.
+# about
+######tool for MM and public servers. shows hours played and league experience for all players in the game you're in. results are shown in the console and can optionally also be sent to ingame chat.
+* make sure you meet the requirements
+* type 3 commands in console
+* run the script
+* information will be sent to the csgo console
+
+# requirements
+* Windows 7 or higher
+* Powershell v5 (a "compatability" file is provided and will tell you what you need to install, if anything)
 
 # setup instructions
 * download the .zip and extract the folder anywhere on your computer: https://github.com/CAKEbuilder/dbserver-mobile/archive/master.zip
-* double click "compatability.bat". if there are no problems, you will be told to press any key to continue. if there are problems, download Windows Management Framework 4.0 (https://www.microsoft.com/en-us/download/details.aspx?id=40855)
+* double click "requirements.bat". if you pass the requirements, you will be asked to press any key to continue. if not, your browser will open and the prompts will tell you which file to download (you only need to download one file).
 
-# use the script
+# using the script
 * open csgo and join a game with players. open the console
  * type "clear" (press enter)
  * type "status" (press enter)
@@ -18,6 +27,4 @@ the "condump" command sends the text from the console to a file (with some major
 # caveats
 the "condump" command unreliably sends text from the console to a file. it will frequently remove characters, misalign data, repeate data, ect. as a result, the output of the script may come out distorted. 
 
-# requirements
-* Windows 7, 8, 8.1, or 10
-* Powershell v5
+
