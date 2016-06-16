@@ -3,6 +3,7 @@
 * make sure you meet the requirements
 * type 3 commands in console
 * run the script
+
 the results are sent to the csgo console
 
 # requirements
