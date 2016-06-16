@@ -1,3 +1,11 @@
+<# 
+ for each drive letter, check if csgo is installed (is it possible that people install in 'Program Files'?). during this check, also find the config directory
+ look for multiple cs accounts existing on the computer
+ (continue breaking down the steps...)
+
+#>
+
+
 <# dynamically find all csgo directories on the computer #>
 
 # initialize the array
@@ -11,7 +19,7 @@ foreach($drive in (gwmi win32_logicaldisk -Filter "DriveType='3'").DeviceID) {
 
         $csgodir = "$drive\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\"
         
-        }
+    }
 
     # find the config dir
     if (Test-Path "$drive\Program Files (x86)\Steam\userdata\") {
@@ -85,7 +93,7 @@ foreach ($location in $locations) {
 
 	        # break out of the entire script
 	        exit
-	        }
+	}
 
         # test the connection to legit-proof.com
         #    if there is an error, inform the user, then exit the script
@@ -101,8 +109,7 @@ foreach ($location in $locations) {
 		
                 pause
 		        exit
-	        }
-
+	}
 
         # definitions
         $condump_file = Get-ChildItem "$csgodir\condump*.txt" | select-object -last 1
@@ -113,7 +120,6 @@ foreach ($location in $locations) {
         $exporttxt_delim = "$configdir\export_delim.txt"
         $bindcfg_name = "userstats_bind.cfg"
         $bindcfg = "$configdir\$bindcfg_name"
-
 
         # purge old stuff. get rid of this section in the future, along with the need for temp files
         if (Test-Path "$configdir\export*") {
@@ -147,7 +153,7 @@ foreach ($location in $locations) {
                                             # replace everything after first trailing space of the Steam ID, replace ":" with "%3A" (for legit-proof.com formatting), remove trailing space
                                             $steamid[1] -replace '^([^ ]+ ).+$','$1' `
                                             -replace ' ',''
-                                  }
+                                       }
 
         <# extract/save the alias #>
         $i = 1
