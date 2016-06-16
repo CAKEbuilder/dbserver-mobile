@@ -5,7 +5,6 @@
 
 #>
 
-
 <# dynamically find all csgo directories on the computer #>
 
 # initialize the array
