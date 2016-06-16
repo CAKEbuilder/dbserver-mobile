@@ -1,5 +1,5 @@
 # todo
-* organize folder structure so that all files users interact with are at the root, and resources are in a folder
+* organize folder structure so that all files that users interact with are at the root, and the backend resources are in a folder
 * account for cs not being installed on the computer at all
 * handle special characters in the alias
 * account for double quotes in an alias
