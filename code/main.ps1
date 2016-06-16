@@ -44,6 +44,12 @@ if (($locations).Length -gt 1) {
     #Write-Host 'only one csgo account found'
 }
 
+# make sure CS is installed
+if (!$locations) {
+    Write-Host 'cs is not installed on this computer.'
+    exit
+}
+
 
 <# lookup player info #>
 
