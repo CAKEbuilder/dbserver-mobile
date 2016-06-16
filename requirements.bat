@@ -2,5 +2,5 @@
 
 echo.
 
-powershell.exe -executionpolicy bypass -file psversion.ps1
+powershell.exe -executionpolicy bypass -file code\psversion.ps1
 
