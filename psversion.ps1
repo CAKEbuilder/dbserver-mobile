@@ -23,11 +23,11 @@ if ($arch -ne 'x86' -and $arch -ne 'x64') {
 # inform the user on what they need to do, if anything
 if ($psver -lt 5 ) {
 
-    Write-Host "Powershell version:"$psver
-    Write-Host "OS arch:"$arch
-    Write-Host ""
-    Write-Host "This version is too low, download Powershell 5"
-    Write-Host ""
+    Write-Host 'Powershell version:'$psver
+    Write-Host 'OS arch:'$arch
+    Write-Host ''
+    Write-Host 'This version is too low, download Powershell 5'
+    Write-Host ''
     if ($arch -eq 'x64') {
         Write-Host 'if you have Windows 7, download the 2nd file (Win7AndW2K8R2-KB3134760-x64.msu)'
         Write-Host ''
@@ -39,7 +39,7 @@ if ($psver -lt 5 ) {
         Write-Host 'if you have Windows 8/8.1, download the 5th file (Win8.1-KB3134758-x86.msu)'
     }
     Write-Host ''
-    Write-Host "when you are ready, press Enter and I will bring you to the download page"
+    Write-Host 'when you are ready, press Enter and I will bring you to the download page'
     Write-Host ''
     Write-Host ''
     pause
@@ -48,13 +48,12 @@ if ($psver -lt 5 ) {
 
 } else {
     
-    Write-Host "Powershell version:"$psver
-    Write-Host "OS arch:"$arch
-    Write-Host ""
-    Write-Host "This version will work"
-    Write-Host ""
-    Write-Host "you're all set!"
-    Write-Host ""
+    Write-Host 'Powershell version:'$psver
+    Write-Host ''
+    Write-Host 'This version will work'
+    Write-Host ''
+    Write-Host 'you are all set!'
+    Write-Host ''
     pause
 
     }
