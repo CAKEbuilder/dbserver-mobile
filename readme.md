@@ -8,7 +8,8 @@ the results are sent to the csgo console
 
 # requirements
 * Windows 7 or higher
-* Powershell v5 (a "requirements" file is provided and will check this for you. if your version is too low, it will bring you to the download page
+* Powershell version 5
+ * don't worry, Windows 10 has this by default. provided is a file called "requirements". double click the file to check if you have it. if your current version is too low, the download page for the file you need will open automatically
 
 # setup instructions
 * download the .zip and extract the folder anywhere on your computer: https://github.com/CAKEbuilder/dbserver-mobile/archive/master.zip
