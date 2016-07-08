@@ -1,9 +1,7 @@
 # todo
-* handle special characters in the alias
 * error check for malformed records in condump. if condump fails to export accurately, skip the record and continue
 * account for other division names. unexpected names are exported to $configdir\log.txt
 * test if anti virus software cares about the batch, or that it calls powershell without using the profile's execution policy
-* during the next failure of the condump command, try con_log <filename>
 * revisit the bind used to send results to mm1, remembering that many users make their configs read only
 * provide user with dump binds for autoexec:
  * // condump
