@@ -14,6 +14,7 @@
 
 # bugs
 * (on valve) the content in console is not reliably sent to the export via the "condump" command. errors include standard characters in aliases being truncated, double quotes surrounding aliases, ect. tweeted @csgo_dev, no response
+* (on valve) special characters don't echo correctly when loaded from a .cfg, even though the same command (echo) translates characters without issue when executed manually in the console
 * if there is only one user in the condump, $allaliases.Length returns the length (in characters) of the single alias, not how many aliases there are
 
 
