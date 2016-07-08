@@ -6,11 +6,18 @@ $url = 'https://www.microsoft.com/en-us/download/details.aspx?id=50395'
 $psver = $PSVersionTable.PSVersion.Major
 
 # get the OS architecture
+<# this doesn't exist in a Win7 machine's version of ps
 if ([Environment]::Is64BitOperatingSystem) {
     $arch = 'x64'
     } else {
     $arch = 'x86'
 }
+#>
+if ((cmd /c wmic OS get OSArchitecture | findstr /i "bit") -like "*64*") {
+    $arch = 'x64'
+    } else {
+    $arch = 'x86'
+    }
 
 # error if we can't determine the architecture
 if ($arch -ne 'x86' -and $arch -ne 'x64') {
