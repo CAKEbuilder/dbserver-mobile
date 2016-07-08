@@ -247,7 +247,7 @@ foreach ($location in $locations) {
 
             
                     if (($full | Where { $_.className -like '*private_profile*' })) {
-                        "Private Profile" | set-variable -name "hours$x"
+                        "Private" | set-variable -name "hours$x"
                     } else {
                         # attempt to remove the comma from the hours played, to remove conflict as the delimiter
                         #$hours | set-variable -name "hours$x"
@@ -387,7 +387,8 @@ foreach ($location in $locations) {
 
 
         # import the csv
-        Import-CSV $exporttxt -Delimiter "," | Format-Table -AutoSize | Out-File $exporttxt_delim #-encoding UTF8 $exporttxt_delim
+
+        Import-CSV $exporttxt -Delimiter "," | Format-Table -AutoSize | Out-File -encoding ascii $exporttxt_delim
 
 
         <#
