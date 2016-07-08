@@ -1,16 +1,6 @@
 # note: Win10 comes with Powershell v5 by default
 # https://4sysops.com/archives/powershell-versions-and-their-windows-version/#powershell-and-windows-versions
 
-# "pause" doesn't exist until (I believe) v4.
-# another option may be "cmd /c pause"
-<#
-function pauseallversions {
-    
-    Read-Host 'Press Enter to continue...' | Out-Null
-
-}
-#>
-
 #definitions
 $url = 'https://www.microsoft.com/en-us/download/details.aspx?id=50395'
 $psver = $PSVersionTable.PSVersion.Major
@@ -52,7 +42,7 @@ if ($psver -lt 5 ) {
     Write-Host 'when you are ready, press Enter and I will bring you to the download page'
     Write-Host ''
     Write-Host ''
-    #pauseallverions
+    # calling from cmd because powershell's pause doesn't exist until (I believe) v4
     cmd /c pause
     # open the download page using the default browser
     Start-Process $url
