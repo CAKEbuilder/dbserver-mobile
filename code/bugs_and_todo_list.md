@@ -1,6 +1,5 @@
 # todo
 * handle special characters in the alias
-* account for double quotes in an alias
 * error check for malformed records in condump. if condump fails to export accurately, skip the record and continue
 * account for other division names. unexpected names are exported to $configdir\log.txt
 * test if anti virus software cares about the batch, or that it calls powershell without using the profile's execution policy
