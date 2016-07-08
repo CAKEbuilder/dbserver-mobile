@@ -3,11 +3,13 @@
 
 # "pause" doesn't exist until (I believe) v4.
 # another option may be "cmd /c pause"
+<#
 function pauseallversions {
     
     Read-Host 'Press Enter to continue...' | Out-Null
 
 }
+#>
 
 #definitions
 $url = 'https://www.microsoft.com/en-us/download/details.aspx?id=50395'
@@ -50,7 +52,8 @@ if ($psver -lt 5 ) {
     Write-Host 'when you are ready, press Enter and I will bring you to the download page'
     Write-Host ''
     Write-Host ''
-    pauseallverions
+    #pauseallverions
+    cmd /c pause
     # open the download page using the default browser
     Start-Process $url
 
