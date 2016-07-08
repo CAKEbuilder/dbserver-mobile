@@ -5,6 +5,7 @@
 
 #>
 
+
 <# dynamically find all csgo directories on the computer #>
 
 # initialize the array
@@ -59,7 +60,7 @@ foreach ($location in $locations) {
         # if we already have the results, copy them to all csgo directories and finish
         if ($wehaveresults -eq 1) {
             Write-Host ''
-            Write-Host 'we already have the results. copying them to all csgo accounts'
+            Write-Host 'copying the results to all csgo accounts'
             Write-Host ''
         
             # copy results.cfg to any other config directories we know about
@@ -161,12 +162,26 @@ foreach ($location in $locations) {
                                        }
 
         <# extract/save the alias #>
-        $i = 1
+        $i = 0
         $allaliases = $condump | foreach {
+
+                                            # this area now supports when users has double quotes in their alias
+                                            # instead of using -split to get data between the first two occurances of double quotes, we find the first and last occurance of double quotes and get that value instead
+
+                                            $alias = ($condump)[$i] | Out-String
+                                            $start = $alias.IndexOf("`"")+1
+                                            $end = $alias.LastIndexOf("`"")
+                                            $length = $end - $start
+                                            #$newalias = $alias.Substring($start,$length)
+                                            $alias.Substring($start,$length)
+                                            $i = $i + 1
+
+                                            <# used to use this, but would only grab the data between the first occurance of double quotes
                                             # get the alias, which is between quotes
                                             $alias = ($condump -split "`"")[$i]
                                             $alias
                                             $i = $i + 3
+                                            #>
                                   }
 
         # if condump is null, assume the user used condump at the wrong time, and break
